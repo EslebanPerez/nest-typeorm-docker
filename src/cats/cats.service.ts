@@ -7,12 +7,10 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class CatsService {
-
   constructor(
     @InjectRepository(Cat)
-    private readonly catRepository:Repository<Cat>
-  ){}
-  
+    private readonly catRepository: Repository<Cat>,
+  ) {}
 
   async create(createCatDto: CreateCatDto) {
     try {
@@ -27,14 +25,14 @@ export class CatsService {
   }
 
   async findOne(id: number) {
-    return `This action returns a #${id} cat`;
+    return this.catRepository.findOneBy({ id });
   }
 
   async update(id: number, updateCatDto: UpdateCatDto) {
-    return `This action updates a #${id} cat`;
+    return this.catRepository.update(id, updateCatDto);
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} cat`;
+    return this.catRepository.softDelete({ id });
   }
 }
